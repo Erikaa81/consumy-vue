@@ -1,4 +1,4 @@
-import { storage } from './storage.ts'
+import { storage } from './storage'
 console.log('will sign in...')
 
 function success(response, onSuccess) {
@@ -13,7 +13,7 @@ function failure(response, onFailure) {
   onFailure()
 }
 
-function isloggedIn() {
+function isLoggedIn() {
   return Boolean(storage.get('token'))
 }
 
@@ -27,7 +27,7 @@ function signOut(andThen = null) {
 }
 
 function currentUser() {
-  if (!isloggedIn()) {
+  if (!isLoggedIn()) {
     return null
   }
   return {
@@ -61,7 +61,7 @@ async function signIn(email, password, onSuccess, onFailure) {
 
 export const auth = {
   signIn,
-  isloggedIn,
+  isLoggedIn,
   currentUser,
   signOut
 }
