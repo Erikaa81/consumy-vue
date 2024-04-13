@@ -20,7 +20,7 @@ async function onSubmit(form: Event) {
     () => {
       awaiting.value = false
       console.log('não foi dessa vez')
-      errorMessage.value = 'Email ou senha inválido(a)!'
+      errorMessage.value = 'Invalid email or password!'
     }
   )
 }
