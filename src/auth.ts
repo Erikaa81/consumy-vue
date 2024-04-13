@@ -1,7 +1,7 @@
 import { storage } from './storage'
 console.log('will sign in...')
 
-function success(response, onSuccess) {
+function success(response: Response, onSuccess: () => void) {
   response.json().then((json) => {
     storage.store('token', json.token)
     storage.store('email', json.email)
@@ -9,7 +9,7 @@ function success(response, onSuccess) {
   })
 }
 
-function failure(response, onFailure) {
+function failure(response: Response, onFailure: () => void) {
   onFailure()
 }
 
@@ -17,13 +17,11 @@ function isLoggedIn() {
   return Boolean(storage.get('token'))
 }
 
-function signOut(andThen = null) {
+function signOut(andThen: ()=> void =() =>{}) {
   storage.remove('token')
   storage.remove('email')
 
-  if (typeof andThen == 'function') {
-    andThen()
-  }
+  andThen()
 }
 
 function currentUser() {
@@ -35,7 +33,7 @@ function currentUser() {
   }
 }
 
-async function signIn(email, password, onSuccess, onFailure) {
+async function signIn(email: string, password: string, onSuccess: () => void, onFailure: () => void) {
   const body = {
     login: {
       email: email,

@@ -4,21 +4,20 @@ import { ref } from 'vue'
 import { auth } from '../auth'
 
 const router = useRouter()
-const email = defineModel('email')
-const password = defineModel('password')
+const email = defineModel<string>('email')
+const password = defineModel<string>('password')
 const awaiting = ref(false)
 const errorMessage = ref('')
 
-async function onSubmit(form) {
+async function onSubmit(form: Event) {
   awaiting.value = true
   auth.signIn(
-    email.value,
-    password.value,
-    () => {
+    email.value || '',
+    password.value || '',() => {
       awaiting.value = false
       router.push('/')
     },
-    (error) => {
+    () => {
       awaiting.value = false
       console.log('não foi dessa vez')
       errorMessage.value = 'Email ou senha inválido(a)!'
@@ -31,7 +30,7 @@ async function onSubmit(form) {
   <div>
     <h1>Sign In</h1>
 
-    <form @submit.prevent="onSubmit()">
+    <form @submit.prevent="onSubmit">
       <label>E-Mail: </label>
       <input v-model="email" type="email" /><br />
 
