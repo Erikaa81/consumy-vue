@@ -1,6 +1,7 @@
 import { storage } from './storage'
 console.log('will sign in...')
 
+
 function success(response: Response, onSuccess: () => void) {
   response.json().then((json) => {
     storage.store('token', json.token)
@@ -50,7 +51,8 @@ async function signIn(
     method: 'POST',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-API_KEY': 'T4EfcQqg3eqGJ1OoEUvEclb41oE='
     },
     body: JSON.stringify(body)
   }).then((response) => {
@@ -122,8 +124,9 @@ class Auth {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
+        'Content-Type': 'application/json',
+        'X-API_KEY': 'T4EfcQqg3eqGJ1OoEUvEclb41oE=',
+            },
       body: JSON.stringify(body)
     }).then((response) => {
       if (response.ok) {
@@ -133,5 +136,39 @@ class Auth {
       }
     })
   }
+
+  async register(email: string, password: string, password_confirmation: string): Promise<void> {
+    const body = {
+      user: {
+        email: email,
+        password: password,
+        password_confirmation: password_confirmation
+      }
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/new', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'X-API_KEY': '84i3hVGseg8kJ9XtummWlWBn8JA='
+        },
+        body: JSON.stringify(body)
+      })
+
+      if (response.ok) {
+        const userData = await response.json()
+        this.storage.store('token', userData.token)
+        this.storage.store('email', userData.email)
+      } else {
+        throw new Error('Failed to register')
+      }
+    } catch (error) {
+      console.error('Erro durante o registro:', error)
+      throw new Error('Failed to register')
+    }
+  }
 }
+ 
 export { Auth }
