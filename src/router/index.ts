@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import SignIn from '../components/SignIn.vue'
 import WelcomeView from '../views/WelcomeView.vue'
 import Registration from '../components/Registration.vue'
+import EditBuyer from '../components/EditBuyer.vue'
+import Profile from '../components/Profile.vue'
 
 
 const router = createRouter({
@@ -21,8 +23,21 @@ const router = createRouter({
         path: '/new',
         name: 'new',
         component: Registration
-      }
-    ]  
+      },
+      {
+        path: '/profile',
+        name: 'profile',
+        component: Profile,
+        props: true
+
+      },
+      {
+        path: '/buyers/:id',
+        name: 'editBuyer',
+        component: EditBuyer,
+        props: true
+      },
+    ] 
 })
 
 export default router
